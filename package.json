@@ -1,0 +1,22 @@
+{
+  "name": "betterMatch",
+  "version": "1.0.2",
+  "description": "betterMatch",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tosone/betterMatch.git"
+  },
+  "keywords": [
+    "match"
+  ],
+  "author": "tosone <i@tosiney.com> (http://tosiney.com)",
+  "license": "MIT",
+  "dependencies": {
+    "convertPinyin": "^1.0.0",
+    "lodash": "^4.16.4"
+  }
+}
