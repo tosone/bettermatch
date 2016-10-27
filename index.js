@@ -81,17 +81,19 @@ class BetterMatch {
 
   simplyMatch(str1, str2) {
     let similarity = 0;
-    for (let i in str1) {
-      if (str2[i]) {
-        if (str1[i] !== str2[i]) {
+    let arr_str1 = str1.split('');
+    let arr_str2 = str2.split('');
+    for (let i in arr_str1) {
+      if (arr_str2[i]) {
+        if (arr_str1[i] !== arr_str2[i]) {
           similarity++;
         }
       } else {
         similarity++;
       }
     }
-    if (str1.length < str2.length) {
-      similarity += str2.length - str1.length;
+    if (arr_str1.length < arr_str2.length) {
+      similarity += arr_str2.length - arr_str1.length;
     }
     return similarity;
   }
