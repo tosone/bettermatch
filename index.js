@@ -14,39 +14,33 @@ class BetterMatch {
     this.match = _.isArray(match) ? this.sort(match) : match;
     let ret = this.wholeMatch(this.match, this.origin);
     if (ret) {
-      if (this.whole) {
-        return [ret];
-      } else {
-        return ret;
-      }
+      if (this.whole) { return [ret]; } else { return ret; }
     } else {
       let once = true;
       _.forEach(this.match, val => {
         if (this.whole) {
           let match = this.minmatch(val, this.origin);
           if (match <= this.similarity) {
-            this.whole.push(val);
+            this.whole.push({ text: val, similarity: match });
           }
         } else if (once) {
           once = false;
           let match = this.minmatch(val, this.origin);
-          if (match <= this.similarity) {
-            ret = val;
-          }
+          if (match <= this.similarity) { ret = val; }
         }
       });
     }
     if (this.whole) {
-      return this.whole;
-    } else {
+      let ret = [];
+      _.forEach(_.sortBy(this.whole, [o => { return Number(o.similarity); }]), val => {
+        ret.push(val.text);
+      });
       return ret;
-    }
+    } else { return ret; }
   }
 
   sort(arr) {
-    arr.sort((a, b) => {
-      return b.length - a.length;
-    });
+    arr.sort((a, b) => { return b.length - a.length; });
     return arr;
   }
 
@@ -61,6 +55,7 @@ class BetterMatch {
     });
     return ret;
   }
+
   minmatch(str1, str2) {
     let p_str1 = pinyin(str1);
     let p_str2 = pinyin(str2);
@@ -71,9 +66,9 @@ class BetterMatch {
     let offset = p_str2.length - p_str1.length;
     for (let i = 0; i <= offset; i++) {
       let temp = 0;
-      _.forEach(p_str1, (str, key) => {
-        temp += this.simplyMatch(str, p_str2[key + i]);
-      });
+      for (let key in p_str1) {
+        temp += this.simplyMatch(p_str1[key], p_str2[Number(key) + i]);
+      }
       similarity.push(temp);
     }
     return _.min(similarity);
@@ -83,18 +78,23 @@ class BetterMatch {
     let similarity = 0;
     let arr_str1 = str1.split('');
     let arr_str2 = str2.split('');
-    for (let i in arr_str1) {
-      if (arr_str2[i]) {
-        if (arr_str1[i] !== arr_str2[i]) {
+    let once = true;
+    _.forEach(arr_str1, (val, key) => {
+      if (arr_str2[key]) {
+        if (arr_str1[key] !== arr_str2[key] && once) {
+          once = false;
           similarity++;
+          if (arr_str1.length === arr_str2.length) {
+            similarity += this.simplyMatch(str1.slice(Number(key) + 1), str2.slice(Number(key) + 1));
+          } else if (arr_str1.length < arr_str2.length) {
+            similarity += this.simplyMatch(str1.slice(Number(key)), str2.slice(Number(key) + 1));
+          } else {
+            similarity += this.simplyMatch(str1.slice(Number(key) + 1), str2.slice(Number(key)));
+          }
         }
-      } else {
-        similarity++;
       }
-    }
-    if (arr_str1.length < arr_str2.length) {
-      similarity += arr_str2.length - arr_str1.length;
-    }
+    });
+
     return similarity;
   }
 }

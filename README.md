@@ -5,23 +5,29 @@
 
 ### Usage
 ``` javascript
+// 不好
+console.log(betterMatch('小红毛', ['小红帽'], true));
+// [ '小红帽' ]
 console.log(betterMatch('不好', ['好', '不好'], false));
-// '不好'
-console.log(betterMatch('不好', ['好', '不好'], true));
-// [ '不好' ]
+// 不好
 console.log(betterMatch('呀，不高', ['好', '不好'], true));
 // [ '不好', '好' ]
 console.log(betterMatch('呀，不高', ['好', '不好'], false));
 // 不好
+console.log(betterMatch('张叉', ['装叉']));
+// 装叉
+console.log(betterMatch('画家', ['花甲', '花架', '回家', '会瞎'], true));
+// [ '花甲', '花架', '回家', '会瞎' ]
 ```
 
 ### 匹配
 
-|Origin|Match|Similarity|
+|Match|Origin|Similarity|
 |:---:|:---:|:---:|
-|想嫁|香蕉|1|
-|香膏|香蕉|2|
-|想招|香蕉|2|
-|奖包|香蕉|3|
-|不系|不是|2|
-|我要跋涉|八十|1|
+|画家|花甲|0|
+|画家|花架|0|
+|画家|回家|1|
+|画家|会瞎|2|
+|画家|麾下|2|
+|画家|慧霞|2|
+|张叉|装叉|1|
