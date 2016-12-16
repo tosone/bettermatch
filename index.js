@@ -11,10 +11,14 @@ class BetterMatch {
     this.similarity = similarity ? similarity : 3;
     this.whole = whole ? [] : false;
     this.origin = origin;
-    this.match = _.isArray(match) ? this.sort(match) : match;
+    this.match = _.isArray(match) ? this.sort(match) : [match];
     let ret = this.wholeMatch(this.match, this.origin);
     if (ret) {
-      if (this.whole) { return [ret]; } else { return ret; }
+      if (this.whole) {
+        return [ret];
+      } else {
+        return ret;
+      }
     } else {
       let once = true;
       _.forEach(this.match, val => {
@@ -24,23 +28,65 @@ class BetterMatch {
             this.whole.push({ text: val, similarity: match });
           }
         } else if (once) {
-          once = false;
-          let match = this.minmatch(val, this.origin);
-          if (match <= this.similarity) { ret = val; }
+          if (this.minmatch(val, this.origin) <= this.similarity) {
+            once = false;
+            ret = val;
+          }
         }
       });
     }
     if (this.whole) {
       let ret = [];
-      _.forEach(_.sortBy(this.whole, [o => { return Number(o.similarity); }]), val => {
+      _.forEach(_.sortBy(this.whole, [o => Number(o.similarity)]), val => {
         ret.push(val.text);
       });
-      return ret;
-    } else { return ret; }
+      if (ret.length !== 0) {
+        return ret;
+      } else {
+        return this.search();
+      }
+    } else {
+      if (ret) {
+        return ret;
+      } else {
+        return this.search();
+      }
+    }
+  }
+
+  search() {
+    let ret = null;
+    let once = true;
+    _.forEach(this.match, val => {
+      let match = this.minmatch(this.origin, val) + this.lengthCheck(this.origin, val);
+      if (this.whole) {
+        if (match <= this.similarity) {
+          this.whole.push({ text: val, similarity: match });
+        }
+      } else if (once) {
+        if (match <= this.similarity) {
+          once = false;
+          ret = val;
+        }
+      }
+    });
+    if (this.whole) {
+      ret = [];
+      _.forEach(_.sortBy(this.whole, [o => Number(o.similarity)]), val => {
+        ret.push(val.text);
+      });
+    }
+    return ret;
+  }
+
+  lengthCheck(str1, str2) {
+    return Math.abs(str1.length - str2.length);
   }
 
   sort(arr) {
-    arr.sort((a, b) => { return b.length - a.length; });
+    arr.sort((a, b) => {
+      return b.length - a.length;
+    });
     return arr;
   }
 
