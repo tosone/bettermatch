@@ -5,7 +5,7 @@ const pinyin = require('convertPinyin');
 
 class BetterMatch {
   get(origin, match, whole, similarity) {
-    if (origin.length === 0 || match.length === 0 || !_.isString(origin)) {
+    if (!origin || !match || origin.length === 0 || match.length === 0 || !_.isString(origin)) {
       return null;
     }
     this.similarity = _.isNumber(similarity) ? similarity : 3;
