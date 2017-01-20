@@ -8,7 +8,7 @@ class BetterMatch {
     if (origin.length === 0 || match.length === 0 || !_.isString(origin)) {
       return null;
     }
-    this.similarity = similarity ? similarity : 3;
+    this.similarity = _.isNumber(similarity) ? similarity : 3;
     this.whole = whole ? [] : false;
     this.origin = origin;
     this.match = _.isArray(match) ? this.sort(match) : match;
