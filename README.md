@@ -5,12 +5,13 @@
 
 ### Usage
 
-`betterMatch(Origin, Matches [, Whole] [, Similarity])`
+`betterMatch(Origin, Matches [, Whole [, Similarity [, Search]]])`
 
-- `Origin` [String] 原始的字符串
-- `Matches` [Array] 希望匹配的关键词列表
+- `Origin` [String] 原始的字符串。
+- `Matches` [Array] 希望匹配的关键词列表。
 - `Whole` [Boolean] 是否进行全匹配，默认否，若不进行全部匹配，则当匹配到某个字符串的时候，符合要求就返回，返回的数据类型是 String 或者 null。若进行全匹配，那么会将所有的关键词列表匹配一遍，将所有符合条件的关键词以匹配度的精确程度排名组成一个数组返回，返回值为数组数组可能为空。
-- `Similarity` [Number] 相似度，默认相似度超过 3，就认为不满足条件。
+- `Similarity` [Number] 相似度，默认相似度超过 Origin 的字符串长度，就认为不满足条件。
+- `Search` [Boolean] 是否进行搜索匹配。
 
 ### Detail
 - 传入参数后首先会进行精确匹配，查看传入的文字是否含有可匹配的关键词。
@@ -19,19 +20,17 @@
 - 针对于目标串和匹配串的长度都非常短的情况，建议将相似度设置的小一点，避免匹配被串了。
 
 ``` javascript
-// 不好
-console.log(betterMatch('小红毛', ['小红帽'], true));
-// [ '小红帽' ]
-console.log(betterMatch('不好', ['好', '不好'], false));
-// 不好
-console.log(betterMatch('呀，不高', ['好', '不好'], true));
-// [ '不好', '好' ]
-console.log(betterMatch('呀，不高', ['好', '不好'], false));
-// 不好
-console.log(betterMatch('张叉', ['装叉']));
-// 装叉
-console.log(betterMatch('画家', ['花甲', '花架', '回家', '会瞎'], true));
-// [ '花甲', '花架', '回家', '会瞎' ]
+console.log('画', ['花甲', '花架', '回家', '会瞎']);
+console.log('单词匹配结果：', betterMatch('画家', ['花甲', '花架', '回家', '会瞎']));
+// 单词匹配结果： 花甲
+console.log('列表匹配结果：', betterMatch('画家', ['花甲', '花架', '回家', '会瞎'], true));
+// 列表匹配结果： [ '花甲', '花架', '回家', '会瞎' ]
+
+console.log('画', ['花甲', '花架', '回家', '会瞎']);
+console.log('搜索匹配结果：', betterMatch('画', ['花甲', '花架', '回家', '会瞎'], true, 3, true));
+// 搜索匹配结果： [ '花甲', '花架', '回家', '会瞎' ]
+console.log('普通匹配结果：', betterMatch('画', ['花甲', '花架', '回家', '会瞎'], true));
+// 普通匹配结果： []
 ```
 
 ### 匹配
