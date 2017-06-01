@@ -26,12 +26,17 @@ class BetterMatch {
         if (this.whole) {
           let match = this.minmatch(val, this.origin);
           if (match <= this.similarity) {
-            this.whole.push({ text: val, similarity: match });
+            this.whole.push({
+              text: val,
+              similarity: match
+            });
           }
         } else if (once) {
-          once = false;
           let match = this.minmatch(val, this.origin);
-          if (match <= this.similarity) { ret = val; }
+          if (match <= this.similarity) {
+            ret = val;
+            once = false;
+          }
         }
       });
     }
@@ -85,7 +90,10 @@ class BetterMatch {
       let match = this.minmatch(this.origin, val) + this.lengthCheck(this.origin, val);
       if (this.whole) {
         if (match <= this.similarity) {
-          this.whole.push({ text: val, similarity: match });
+          this.whole.push({
+            text: val,
+            similarity: match
+          });
         }
       } else if (once) {
         if (match <= this.similarity) {
