@@ -1,0 +1,20 @@
+{
+  "name": "bowerMatch",
+  "description": "bowerMatch",
+  "main": "index.js",
+  "authors": [
+    "tosone <i@tosiney.com> (http://tosiney.com)"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "match"
+  ],
+  "homepage": "https://github.com/tosone/betterMatch",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
