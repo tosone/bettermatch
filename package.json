@@ -1,22 +1,22 @@
 {
-  "name": "betterMatch",
-  "version": "1.0.12",
-  "description": "betterMatch",
+  "name": "@tosone/bettermatch",
+  "version": "2.0.0",
+  "description": "对输入的一段文字进行模糊匹配，对输入的字符串和目标字符串之间选取最相近的最高匹配度的部分",
   "main": "index.js",
   "scripts": {
     "test": "node test"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/tosone/betterMatch.git"
+    "url": "https://github.com/tosone/bettermatch.git"
   },
   "keywords": [
     "match"
   ],
-  "author": "tosone <i@tosiney.com> (http://tosiney.com)",
+  "author": "tosone <i@tosone.cn> (https://tosone.cn)",
   "license": "MIT",
   "dependencies": {
-    "convertPinyin": "^1.1.0",
-    "lodash": "^4.17.15"
+    "@tosone/pinyin": "^2.0.0",
+    "lodash": "^4.17.21"
   }
 }

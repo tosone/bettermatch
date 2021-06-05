@@ -1,7 +1,7 @@
 'use strict';
 
 const _ = require('lodash');
-const pinyin = require('convertPinyin');
+const pinyin = require('@tosone/pinyin');
 
 class BetterMatch {
   get(origin, match, whole, similarity, search) {
